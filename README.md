@@ -33,9 +33,20 @@ app:
 
 
 ## Results 
+To clean the raw data and save it to a database, go to the git folder and run:
+```
+python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
+```
+
+To train and build the classifier using the saved database and save the ML model, run:
+```
+python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
+```
+
 To use the classifier, go to the app folder and run:
-
+```
 python run.py
+```
 
-If you're using your local machine, be sure to change the host from 0.0.0.0 to 127.0.0.1, which I've marked in the script. 
+For the last step, if you're using your local machine, be sure to change the host from 0.0.0.0 to 127.0.0.1 in run.py, which I've marked in the script. 
 
