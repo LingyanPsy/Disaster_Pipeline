@@ -32,7 +32,7 @@ app:
 - templates | web design related files 
 
 
-## Results 
+## How to use?
 To clean the raw data and save it to a database, go to the git folder and run:
 ```
 python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
