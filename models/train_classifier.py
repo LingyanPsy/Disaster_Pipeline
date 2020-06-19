@@ -19,6 +19,15 @@ from sklearn.metrics import classification_report
 from sklearn.externals import joblib 
 
 def load_data(database_filepath):
+    '''
+    load data and parcel X,Y and category names 
+    parameters:
+    database_filepath: database file path used in process_data.py
+    returns:
+    X:messages
+    Y:categories that messages belong to
+    column_names: 36 category names
+    '''
     engine = create_engine('sqlite:///' + database_filepath)
     df = pd.read_sql("SELECT * FROM data", engine)
     X = df.message.values
@@ -29,6 +38,13 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    '''
+    tokenize text 
+    parameters:
+    text: text that needs to be tokenized
+    returns:
+    clean_tokens: tokenized text
+    '''    
     text = re.sub(r"[^a-zA-Z0-9]", " ", text) 
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
@@ -40,6 +56,9 @@ def tokenize(text):
 
 
 def build_model():
+    '''
+    build machine learning model and use gridsearch to search for best parameters
+    '''   
     pipeline = Pipeline([
             ('vect', CountVectorizer(tokenizer=tokenize)),
             ('tfidf', TfidfTransformer()),
@@ -56,6 +75,14 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    '''
+    evaluate model on testing data and print results 
+    parameters:
+    model: built model from build_model()
+    X_test: test X data
+    Y_test: test Y data
+    category_names: 36 category names 
+    '''
     y_pred = model.predict(X_test)
     for i in range(y_pred.shape[1]):
         print(category_names[i]) 
@@ -63,6 +90,12 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    '''
+    save model
+    parameters:
+    model: built model from build_model()
+    model_filepath: name and path to save the model
+    '''
     joblib.dump(model, model_filepath) 
 
 
