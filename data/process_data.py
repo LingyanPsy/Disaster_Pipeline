@@ -5,6 +5,14 @@ import sqlite3
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    '''
+    load data from given files and combine them to a dataframe
+    parameters:
+    messages_filepath: message datafile path
+    categories_filepath: category datafile path
+    returns:
+    df: dataframe containing messages and categories 
+    '''
     #read data
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
@@ -14,6 +22,13 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    '''
+    clean data, remove duplicates and properly format data
+    parameters:
+    df: dataframe containing messages and categories 
+    returns:
+    df: cleanedd dataframe containing messages and categories 
+    '''
     #1. create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(';',expand=True)
     
@@ -46,6 +61,12 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    '''
+    save cleaned dataset to database
+    parameters:
+    df: cleaned dataframe containing messages and categories 
+    database_filename: database name you want to use
+    '''
     engine = create_engine('sqlite:///'+ database_filename)
     df.to_sql('data', engine, index=False, if_exists = 'replace')  
 
